@@ -41,16 +41,11 @@ fun SensorStatusDialog(
                     Icon(
                         painter = painterResource(Res.drawable.img_sensor_calibration_explanation),
                         contentDescription = null,
-                        tint = when (sensorAccuracy) {
-                            SensorAccuracy.NO_CONTACT, SensorAccuracy.UNRELIABLE, SensorAccuracy.LOW ->
-                                MaterialTheme.colorScheme.error
-
-                            else -> MaterialTheme.colorScheme.onSurface
-                        }
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(stringResource(sensorAccuracy.textResourceId))
                 }
+                Text(stringResource(sensorAccuracy.textResourceId))
             }
         },
         confirmButton = {

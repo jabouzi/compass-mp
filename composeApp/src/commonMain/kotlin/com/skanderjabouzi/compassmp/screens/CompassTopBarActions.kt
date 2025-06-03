@@ -14,6 +14,7 @@ import compass_mp.composeapp.generated.resources.ic_screen_rotation
 import compass_mp.composeapp.generated.resources.ic_screen_rotation_lock
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun CompassTopBarActions(
@@ -38,6 +39,7 @@ fun CompassTopBarActions(
                 if (screenOrientationLocked) Res.drawable.ic_screen_rotation_lock
                 else Res.drawable.ic_screen_rotation
             ),
+            tint = MaterialTheme.colorScheme.onSurface,
             contentDescription = "Screen Rotation"
         )
     }
