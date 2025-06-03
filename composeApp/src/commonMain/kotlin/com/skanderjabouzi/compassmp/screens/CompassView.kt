@@ -26,12 +26,12 @@ fun CompassView(
 ) {
     val azimuth by compassViewModel.azimuth.collectAsState()
     val locationStatus by compassViewModel.locationStatus.collectAsState()
-
     var lastHapticFeedbackPoint by remember { mutableStateOf<Azimuth?>(null) }
 
     // Handle sensors and location
     LaunchedEffect(trueNorth) {
         compassViewModel.setTrueNorth(trueNorth)
+        compassViewModel.setHapticFeedback(hapticFeedback)
         // The following check might be redundant if requestLocation is handled by locationStatus changes
         // if (trueNorth && location == null && locationStatus != LocationStatus.Loading) {
         //     compassViewModel.requestLocation()

@@ -26,6 +26,9 @@ class CompassViewModel : ViewModel() { // No longer takes Context
     private val _locationStatus = MutableStateFlow(LocationStatus.NOT_PRESENT)
     val locationStatus: StateFlow<LocationStatus> = _locationStatus.asStateFlow()
 
+    private val _hapticFeedback = MutableStateFlow(false)
+    val hapticFeedback: StateFlow<Boolean> = _hapticFeedback.asStateFlow()
+
     // Public methods for platform-specific code to update the ViewModel's state
 
     /**
@@ -62,6 +65,15 @@ class CompassViewModel : ViewModel() { // No longer takes Context
      */
     fun setTrueNorth(enabled: Boolean) {
         _trueNorth.value = enabled
+    }
+
+    /**
+     * Sets Haptic Feedback preference.
+     * The actual toggle of haptic feedback value based on this value
+     * should be handled by platform-specific code observing the `hapticFeedback` StateFlow.
+     */
+    fun setHapticFeedback(enabled: Boolean) {
+        _hapticFeedback.value = enabled
     }
 
     // Android-specific lifecycle methods like onCleared() from androidx.lifecycle.ViewModel

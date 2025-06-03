@@ -34,7 +34,7 @@ fun MainScreen() {
     }
 
     val trueNorthEnabled by compassViewModel.trueNorth.collectAsState()
-    var hapticFeedbackUserSetting by remember { mutableStateOf(true) }
+    val hapticFeedbackEnabled by compassViewModel.hapticFeedback.collectAsState()
     var screenOrientationLocked by remember { mutableStateOf(false) }
 
     DisposableEffect(Unit) {
@@ -60,10 +60,10 @@ fun MainScreen() {
     CompassScreen(
         compassViewModel = compassViewModel,
         trueNorth = trueNorthEnabled,
-        hapticFeedback = hapticFeedbackUserSetting,
+        hapticFeedback = hapticFeedbackEnabled,
         screenOrientationLocked = screenOrientationLocked,
         onTrueNorthChanged = { enabled -> compassViewModel.setTrueNorth(enabled) },
-        onHapticFeedbackChanged = { hapticFeedbackUserSetting = it },
+        onHapticFeedbackChanged = { enabled -> compassViewModel.setHapticFeedback(enabled) },
         onScreenOrientationChanged = { screenOrientationLocked = it }
     )
 }
