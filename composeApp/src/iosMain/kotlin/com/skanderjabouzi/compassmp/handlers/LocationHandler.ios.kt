@@ -33,8 +33,7 @@ actual class LocationHandler actual constructor(
                         latitude = latitude,
                         longitude = longitude,
                         altitude = clLocation.altitude,
-                        time = clLocation.timestamp.timeIntervalSince1970().toLong() * 1000 // Convert to milliseconds
-                        // Add other fields like accuracy if needed in your common Location
+                        time = clLocation.timestamp.timeIntervalSince1970().toLong() * 1000
                     )
                     onLocationChanged(commonLocation)
                 }

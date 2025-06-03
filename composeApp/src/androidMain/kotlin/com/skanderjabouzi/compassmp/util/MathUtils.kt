@@ -45,12 +45,12 @@ object MathUtils {
     }
 
     @JvmStatic
-    fun getMagneticDeclination(location: Location?): Float {
-        val latitude = location?.latitude?.toFloat()
-        val longitude = location?.latitude?.toFloat()
-        val altitude = location?.latitude?.toFloat()
-        val time = location?.time
-        val geomagneticField = GeomagneticField(latitude ?: 0f, longitude ?: 0f, altitude ?: 0f, time ?: 0L)
+    fun getMagneticDeclination(location: Location): Float {
+        val latitude = location.latitude.toFloat()
+        val longitude = location.longitude.toFloat()
+        val altitude = location.altitude.toFloat()
+        val time = location.time
+        val geomagneticField = GeomagneticField(latitude , longitude, altitude, time)
         return geomagneticField.declination
     }
 

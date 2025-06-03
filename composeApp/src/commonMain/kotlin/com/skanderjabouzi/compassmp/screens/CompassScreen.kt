@@ -33,7 +33,7 @@ fun CompassScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Compass") },
+                title = { Text("Compass MP") },
                 actions = {
                     CompassTopBarActions(
                         sensorAccuracy = compassViewModel.sensorAccuracy.collectAsState().value,
