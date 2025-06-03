@@ -1,4 +1,4 @@
-package com.skanderjabouzi.salat.di
+package com.skanderjabouzi.compassmp.di
 
 import com.skanderjabouzi.compassmp.viewmodel.CompassViewModel
 import org.koin.core.module.dsl.factoryOf
