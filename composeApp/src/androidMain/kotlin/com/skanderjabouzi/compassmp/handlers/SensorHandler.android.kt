@@ -6,7 +6,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-// import android.os.Build // No longer strictly needed for the rotation part
 import android.view.Surface
 import android.view.WindowManager
 import com.skanderjabouzi.compassmp.model.LocationStatus
@@ -14,7 +13,8 @@ import com.skanderjabouzi.compassmp.model.SensorAccuracy
 import com.skanderjabouzi.compassmp.model.RotationVector
 import com.skanderjabouzi.compassmp.model.Azimuth
 import com.skanderjabouzi.compassmp.model.Location
-import com.skanderjabouzi.compassmp.util.MathUtils
+import com.skanderjabouzi.compassmp.util.MathUtils.calculateAzimuth
+import com.skanderjabouzi.compassmp.util.MathUtils.getMagneticDeclination
 import com.skanderjabouzi.compassmp.util.application
 
 actual class SensorHandler actual constructor(
@@ -90,12 +90,12 @@ actual class SensorHandler actual constructor(
                             else -> com.skanderjabouzi.compassmp.model.DisplayRotation.ROTATION_0 // Default
                         }
 
-                        val magneticAzimuth = MathUtils.calculateAzimuth(rotationVector, currentDisplayRotation)
+                        val magneticAzimuth = calculateAzimuth(rotationVector, currentDisplayRotation)
 
                         val finalAzimuth = if (isTrueNorthEnabled()) {
                             val currentLoc = getCurrentLocation()
                             if (currentLoc != null && getCurrentLocationStatus() == LocationStatus.PRESENT) {
-                                val declination = MathUtils.getMagneticDeclination(currentLoc)
+                                val declination = getMagneticDeclination(currentLoc)
                                 magneticAzimuth.plus(declination)
                             } else {
                                 magneticAzimuth

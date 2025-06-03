@@ -6,15 +6,15 @@ import com.skanderjabouzi.compassmp.model.Azimuth
 import com.skanderjabouzi.compassmp.model.DisplayRotation
 import com.skanderjabouzi.compassmp.model.Location
 import com.skanderjabouzi.compassmp.model.RotationVector
-import kotlin.math.roundToInt
+
 private const val AZIMUTH = 0
 private const val AXIS_SIZE = 3
 private const val ROTATION_MATRIX_SIZE = 9
 
-object MathUtils {
+actual object MathUtils {
 
     @JvmStatic
-    fun calculateAzimuth(rotationVector: RotationVector, displayRotation: DisplayRotation): Azimuth {
+    actual fun calculateAzimuth(rotationVector: RotationVector, displayRotation: DisplayRotation): Azimuth {
         val rotationMatrix = getRotationMatrix(rotationVector)
         val remappedRotationMatrix = remapRotationMatrix(rotationMatrix, displayRotation)
         val orientationInRadians = SensorManager.getOrientation(remappedRotationMatrix, FloatArray(AXIS_SIZE))
@@ -23,13 +23,13 @@ object MathUtils {
         return Azimuth(azimuthInDegrees)
     }
 
-    private fun getRotationMatrix(rotationVector: RotationVector): FloatArray {
+    actual fun getRotationMatrix(rotationVector: RotationVector): FloatArray {
         val rotationMatrix = FloatArray(ROTATION_MATRIX_SIZE)
         SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector.toArray())
         return rotationMatrix
     }
 
-    private fun remapRotationMatrix(rotationMatrix: FloatArray, displayRotation: DisplayRotation): FloatArray {
+    actual fun remapRotationMatrix(rotationMatrix: FloatArray, displayRotation: DisplayRotation): FloatArray {
         return when (displayRotation) {
             DisplayRotation.ROTATION_0 -> remapRotationMatrix(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Y)
             DisplayRotation.ROTATION_90 -> remapRotationMatrix(rotationMatrix, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X)
@@ -38,31 +38,18 @@ object MathUtils {
         }
     }
 
-    private fun remapRotationMatrix(rotationMatrix: FloatArray, newX: Int, newY: Int): FloatArray {
+    actual fun remapRotationMatrix(rotationMatrix: FloatArray, newX: Int, newY: Int): FloatArray {
         val remappedRotationMatrix = FloatArray(ROTATION_MATRIX_SIZE)
         SensorManager.remapCoordinateSystem(rotationMatrix, newX, newY, remappedRotationMatrix)
         return remappedRotationMatrix
     }
 
-    @JvmStatic
-    fun getMagneticDeclination(location: Location): Float {
+    actual fun getMagneticDeclination(location: Location): Float {
         val latitude = location.latitude.toFloat()
         val longitude = location.longitude.toFloat()
         val altitude = location.altitude.toFloat()
         val time = location.time
         val geomagneticField = GeomagneticField(latitude , longitude, altitude, time)
         return geomagneticField.declination
-    }
-
-    fun getClosestNumberFromInterval(number: Float, interval: Float): Float =
-        (number / interval).roundToInt() * interval
-
-    /**
-     * @see <a href="https://math.stackexchange.com/questions/2275439/check-if-point-on-circle-is-between-two-other-points-on-circle">Stackexchange</a>
-     */
-    fun isAzimuthBetweenTwoPoints(azimuth: Azimuth, pointA: Azimuth, pointB: Azimuth): Boolean {
-        val aToB = (pointB.degrees - pointA.degrees + 360f) % 360f
-        val aToAzimuth = (azimuth.degrees - pointA.degrees + 360f) % 360f
-        return aToB <= 180f != aToAzimuth > aToB
     }
 }
