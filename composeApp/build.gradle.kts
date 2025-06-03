@@ -43,6 +43,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.material.icons.core)
         }
 
         commonTest.dependencies {
@@ -84,6 +87,7 @@ android {
 
 //https://developer.android.com/develop/ui/compose/testing#setup
 dependencies {
+    implementation(libs.androidx.ui.android)
     androidTestImplementation(libs.androidx.uitest.junit4)
     debugImplementation(libs.androidx.uitest.testManifest)
 }
